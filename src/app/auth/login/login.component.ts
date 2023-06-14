@@ -41,9 +41,9 @@ export class LoginComponent implements OnInit {
     const val = this.form.value;
     this.auth.login(val.email, val.password).pipe(
       tap(user => {
-        console.log(user);
-
         this.store.dispatch(AuthActions.loginAction({user}));
+
+        this.router.navigate(['courses'])
       })
     ).subscribe(
       noop,
