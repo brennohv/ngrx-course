@@ -9,6 +9,7 @@ import {noop} from "rxjs";
 import {Router} from "@angular/router";
 import { AppState } from '../../reducers';
 import { loginAction } from '../auth.actions';
+import { AuthActions } from '../action-types';
 
 @Component({
   selector: 'login',
@@ -41,7 +42,8 @@ export class LoginComponent implements OnInit {
     this.auth.login(val.email, val.password).pipe(
       tap(user => {
         console.log(user);
-        this.store.dispatch(loginAction({user}));
+
+        this.store.dispatch(AuthActions.loginAction({user}));
       })
     ).subscribe(
       noop,
