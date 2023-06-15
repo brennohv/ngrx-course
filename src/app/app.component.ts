@@ -5,6 +5,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 import { AppState } from './reducers';
 import { AuthActions } from './auth/action-types';
 import { isLoggedInSelector, isLoggedOutSelector } from './auth/auth.selectors';
+import { loginAction } from './auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,11 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+
+      const user =  localStorage.getItem('user');
+      if(user) {
+        this.store.dispatch(loginAction({user: JSON.parse(user)}))
+      }
 
       this.isLoggedIn$ = this.store.pipe(
         select(isLoggedInSelector)
