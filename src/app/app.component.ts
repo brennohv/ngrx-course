@@ -14,12 +14,22 @@ import { AuthActions } from './auth/action-types';
 export class AppComponent implements OnInit {
 
     loading = true;
+    isLoggedIn$: Observable<boolean>;
+    isLoggedout$: Observable<boolean>;
 
     constructor(private router: Router, private store: Store<AppState>) {
 
     }
 
     ngOnInit() {
+
+      this.isLoggedIn$ = this.store.pipe(
+        map((state) => !!state['auth'].user)
+      )
+
+      this.isLoggedout$ = this.store.pipe(
+        map((state) => !state['auth'].user)
+      )
 
       this.router.events.subscribe(event  => {
         switch (true) {
