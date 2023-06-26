@@ -1,11 +1,12 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 import { AppState } from "../reducers";
-import { Store } from "@ngrx/store";
-import { first, tap } from "rxjs/operators";
+import { Store, select } from "@ngrx/store";
+import { filter, first, tap } from "rxjs/operators";
 import { loadAllCourses } from "./courses.actions";
 import { Injectable } from "@angular/core";
 import { CoursesActions } from "./courses-types";
+import { hasAlreadyLoadedBefore } from "./courses.selectors";
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,11 @@ export class CoursesResolver {
       return this.store
         .pipe(
           first(),
-          tap(() => {
-            this.store.dispatch(CoursesActions.loadAllCourses())
+          select(hasAlreadyLoadedBefore),
+          tap((hasLoaded) => {
+            if(!hasLoaded) {
+              this.store.dispatch(CoursesActions.loadAllCourses())
+            }
           })
         )
     }

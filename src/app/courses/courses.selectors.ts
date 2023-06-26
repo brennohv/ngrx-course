@@ -23,3 +23,8 @@ export const totalPromoCoursesSelector = createSelector(
   allCoursesSelector,
   (courses) => courses.filter(course =>  course.promo ).length
 )
+
+export const hasAlreadyLoadedBefore = createSelector(
+  selectCourses,
+  (state) => state.hasAlreadyLoadedBefore
+)
