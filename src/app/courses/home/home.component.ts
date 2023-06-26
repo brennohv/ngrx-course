@@ -43,14 +43,12 @@ export class HomeComponent implements OnInit {
   reload() {
     this.advancedCourses$ = this.store
       .pipe(
-        select(advancedCoursesSelector),
-        map((course => course.sort(compareCourses)))
+        select(advancedCoursesSelector)
       )
 
     this.beginnerCourses$ = this.store
       .pipe(
-        select(beginnerCoursesSelector),
-        map((course => course.sort(compareCourses)))
+        select(beginnerCoursesSelector)
       )
 
     this.promoTotal$ = this.store

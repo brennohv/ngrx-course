@@ -9,14 +9,17 @@ import {
   MetaReducer,
   on
 } from '@ngrx/store';
-import { Course } from '../model/course';
+import { compareCourses, Course } from '../model/course';
 import { CoursesActions } from '../courses-types';
 
 export const coursesFeatureKey = 'courses';
 
 export interface CoursesState extends EntityState<Course>{}
 
-const adapter = createEntityAdapter<Course>();
+const adapter = createEntityAdapter<Course>({
+  sortComparer: compareCourses,
+  // selectId: course => course.courseId
+});
 
 export const initialCoursesState = adapter.getInitialState();
 
