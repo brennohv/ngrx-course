@@ -16,7 +16,7 @@ export class CoursesDataService extends DefaultDataService<Course> {
   }
 
   getAll(options?: HttpOptions): Observable<Course[]> {
-      return this.http.get('/api/courses')
-        .pipe(map(res => res["payload"]))
+      return this.http.get<{payload: Course[]}>('/api/courses')
+        .pipe(map(res => res.payload))
   }
 }
