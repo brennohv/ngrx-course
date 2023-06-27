@@ -25,22 +25,30 @@ import { EntityDataService, EntityDefinitionService, EntityMetadataMap} from '@n
 import {compareCourses, Course} from './model/course';
 
 import {compareLessons, Lesson} from './model/lesson';
+import { CoursesResolver } from './courses.resolver';
+import { CoursesDataService } from './services/courses-data.service';
 
 
 export const coursesRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve: {
+      courses: CoursesResolver
+    }
 
   },
   {
     path: ':courseUrl',
-    component: CourseComponent
+    component: CourseComponent,
+    resolve: {
+      courses: CoursesResolver
+    }
   }
 ];
 
 const entityMetadata: EntityMetadataMap = {
-  course: {}
+  Course: {}
 }
 
 
@@ -82,9 +90,11 @@ const entityMetadata: EntityMetadataMap = {
 })
 export class CoursesModule {
 
-  constructor(eds: EntityDefinitionService) {
+  constructor(
+    private eds: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private coursesDataService: CoursesDataService) {
     eds.registerMetadataMap(entityMetadata)
+    entityDataService.registerService('Course', this.coursesDataService)
   }
-
-
 }
