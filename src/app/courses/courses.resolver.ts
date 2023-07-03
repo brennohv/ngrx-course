@@ -22,7 +22,6 @@ export class CoursesResolver {
               this.coursesService.getAll()
             }
           }),
-          // filter(loaded => !!loaded)
         )
     }
 }

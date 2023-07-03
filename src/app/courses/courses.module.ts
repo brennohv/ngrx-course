@@ -27,6 +27,7 @@ import {compareCourses, Course} from './model/course';
 import {compareLessons, Lesson} from './model/lesson';
 import { CoursesResolver } from './courses.resolver';
 import { CoursesDataService } from './services/courses-data.service';
+import { EffectsModule } from '@ngrx/effects';
 
 
 export const coursesRoutes: Routes = [
@@ -49,7 +50,10 @@ export const coursesRoutes: Routes = [
 
 const entityMetadata: EntityMetadataMap = {
   Course: {
-    sortComparer: compareCourses
+    sortComparer: compareCourses,
+    entityDispatcherOptions: {
+      optimisticUpdate: true,
+    }
   }
 }
 
