@@ -1,6 +1,6 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { filter, first, map, tap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { CourseEntityService } from "./services/courses-entity.service";
 
@@ -14,8 +14,15 @@ export class CoursesResolver {
 
   resolve(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<any> {
-      return this.coursesService.getAll().pipe(
-        map(courses => !!courses)
-      )
+      return this.coursesService.loaded$
+        .pipe(
+          first(),
+          tap(loaded => {
+            if(!loaded) {
+              this.coursesService.getAll()
+            }
+          }),
+          // filter(loaded => !!loaded)
+        )
     }
 }
